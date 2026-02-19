@@ -1,0 +1,99 @@
+---
+title: Confidence Indicators
+description: Visual signals communicating AI certainty and uncertainty
+---
+
+---
+
+Visual signals communicating how certain or uncertain the AI is about its output. The core tension: transparency demands users know when AI is uncertain, but showing it wrong creates anxiety, false precision, or decision paralysis. The right approach depends entirely on what's at stake and what the user can do about it.
+
+## Component
+
+<div className="flex items-center justify-center p-6 bg-[#1a1a1a] gap-20 rounded-lg my-6 min-h-[380px]">
+  <ConfidenceIndicator level="low" />
+  <ConfidenceIndicator level="medium" />
+  <ConfidenceIndicator level="high" />
+</div>
+
+## In Context
+
+<StreamingDemo />
+
+## Source Code
+
+<include>../../../components/confidence-indicator.tsx</include>
+
+## API Reference
+
+### ConfidenceIndicator
+
+The main component for displaying confidence levels with expandable context.
+
+| Prop             | Type                          | Default     | Description                                                            |
+| ---------------- | ----------------------------- | ----------- | ---------------------------------------------------------------------- |
+| `level`          | `'low' \| 'medium' \| 'high'` | `'low'`     | The confidence level to display. Controls the visual indicator colors. |
+| `missingContext` | `MissingContext[]`            | `[]`        | Array of missing context items to display in the popover.              |
+| `onFindContext`  | `() => void`                  | `undefined` | Callback fired when the "Find missing context" button is clicked.      |
+
+### MissingContext
+
+The shape of each missing context item.
+
+| Property | Type     | Description                             |
+| -------- | -------- | --------------------------------------- |
+| `id`     | `string` | Unique identifier for the context item. |
+| `text`   | `string` | Description of the missing context.     |
+
+### Level Colors
+
+| Level    | Description                                   | Visual                      |
+| -------- | --------------------------------------------- | --------------------------- |
+| `low`    | High uncertainty, significant missing context | 1 of 3 bars filled (red)    |
+| `medium` | Moderate confidence, some context missing     | 2 of 3 bars filled (orange) |
+| `high`   | High confidence, minimal missing context      | 3 of 3 bars filled (green)  |
+
+## Design Philosophy
+
+<div className='fd-steps [&_h3]:fd-step'>
+
+### Where I started
+
+When I started designing the confidence indicator, my focus was on showing **how sure is the AI**. That's the obvious framing: give the user a confidence score so they can make an informed decision. A percentage next to each response. It's transparent, it's what most AI products ship, and it felt like the responsible thing to do.
+
+### What made me doubt it
+
+Then I ran an action-mapping exercise. I listed 5 confidence ranges and wrote down what the user would actually do at each one, not what they'd feel, what they'd do.
+
+| Range  | User Action                         |
+| ------ | ----------------------------------- |
+| \>90%  | Trust it, move on                   |
+| 80–90% | Trust it, move on                   |
+| 65–80% | Verify before acting on it          |
+| 50–65% | Don't trust it, check independently |
+| \<50%  | Don't trust it, check independently |
+
+Five ranges, two behaviors. The user either trusts the answer or goes to check it. There's no third action. The score wasn't changing anyone's behavior.
+
+### What I killed
+
+I killed the percentage for three reasons.
+
+**The precision is fake.** When a model says 73%, users read it like a thermometer, an exact measurement. But most models are poorly calibrated. 73% might mean correct anywhere from 55–90% of the time. The number communicates exactness that doesn't exist in the system.
+
+**The number doesn't change the action.** What does a user do differently at 73% vs 68%? Nothing. A precise input to a binary decision is noise.
+
+**It shifts attention to the score.** The moment you show a number, users evaluate the number instead of the content. "Is 73% good enough?" replaces actually reading the response. The score becomes a worse proxy than the user's own eyes.
+
+### The reframe
+
+Killing the percentage cleared the table but didn't solve the problem. I still needed to figure out what to show instead. That's when I realized the question I'd been designing around, "how sure is the AI?", was the wrong question entirely. It produces a number. The user's real question is "**what would make this answer better?**" and that produces a path forward.
+
+Compare: "62% confident this is Urgent" gives the user one option, trust it or don't. But "this email is short, has no explicit deadline, and the sender writes both urgent and casual messages in the same tone" tells the user exactly where to look. They glance at the email, see there's no deadline, reclassify in three seconds. The AI showed what it was missing. The user closed the gap.
+
+This works across response types. "I don't have access to your codebase, so I'm guessing at your project structure." "This answer is based on training data, the API may have changed." Each tells the user what would make the answer better without prescribing what to do about it. A senior engineer pastes in their file tree. A junior engineer double-checks the imports. Same information, different actions, because the user knows their context better than the component ever could.
+
+### The principle
+
+Don't show the AI's confidence score. Show what information is missing, ambiguous, or uncertain and let the user decide what to do about it. The number asks the user to trust a black box. The explanation turns it into a collaboration.
+
+</div>
