@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useCallback, useState } from 'react'
+import { Button } from '@/components/ui/button'
 import { ConfidenceIndicator } from './confidence-indicator'
 
 const PRESET_QUESTION = 'What investment strategy should I use for my portfolio?'
@@ -25,9 +26,9 @@ const FOLLOW_UP_MESSAGE = `Here's the missing context you need:
 function TypingIndicator() {
   return (
     <div className="flex gap-1 items-center h-6">
-      <div className="w-2 h-2 bg-[#475467] rounded-full animate-bounce [animation-delay:-0.3s]" />
-      <div className="w-2 h-2 bg-[#475467] rounded-full animate-bounce [animation-delay:-0.15s]" />
-      <div className="w-2 h-2 bg-[#475467] rounded-full animate-bounce" />
+      <div className="w-2 h-2 bg-bg-quinary rounded-full animate-bounce [animation-delay:-0.3s]" />
+      <div className="w-2 h-2 bg-bg-quinary rounded-full animate-bounce [animation-delay:-0.15s]" />
+      <div className="w-2 h-2 bg-bg-quinary rounded-full animate-bounce" />
     </div>
   )
 }
@@ -100,23 +101,20 @@ export function StreamingDemo() {
   return (
     <div className="flex flex-col gap-4 w-full not-prose">
       {/* Chat area */}
-      <div className="bg-[#1a1a1a] rounded-xl p-4 min-h-[500px] flex flex-col">
+      <div className="border border-border-primary rounded-xl p-4 min-h-[500px] flex flex-col">
         {!showQuestion && !isComplete && (
           <div className="flex-1 flex items-center justify-center">
-            <button
-              onClick={startDemo}
-              className="bg-[#3d4a54] text-[#f2f7fc] rounded-xl px-6 py-3 text-base font-medium hover:bg-[#475467] transition-colors cursor-pointer"
-            >
+            <Button onClick={startDemo} size="lg" className="rounded-xl cursor-pointer">
               Run Demo
-            </button>
+            </Button>
           </div>
         )}
 
         {/* Human question section */}
         {showQuestion && (
           <div className="flex flex-col gap-1 items-end w-full">
-            <div className="bg-[#3d4a54] rounded-lg px-3.5 py-2.5 max-w-[80%]">
-              <p className="text-[#f2f7fc] text-base leading-6">{PRESET_QUESTION}</p>
+            <div className="bg-bg-tertiary rounded-lg px-3.5 py-2.5 max-w-[80%]">
+              <p className="text-text-primary text-base leading-6">{PRESET_QUESTION}</p>
             </div>
           </div>
         )}
@@ -133,9 +131,9 @@ export function StreamingDemo() {
             {/* AI response */}
             {displayedText && (
               <div className="px-3.5 py-2.5 w-full">
-                <p className="text-[#f2f7fc] text-base leading-6 whitespace-pre-line">
+                <p className="text-text-primary text-base leading-6 whitespace-pre-line">
                   {displayedText}
-                  {isStreaming && <span className="inline-block w-0.5 h-4 bg-[#f2f7fc] ml-0.5 animate-pulse" />}
+                  {isStreaming && <span className="inline-block w-0.5 h-4 bg-text-primary ml-0.5 animate-pulse" />}
                 </p>
               </div>
             )}
@@ -144,13 +142,7 @@ export function StreamingDemo() {
             {isComplete && (
               <div className="flex items-start justify-between w-full p-2.5">
                 <div />
-                {showConfidence && (
-                  <ConfidenceIndicator
-                    level={PRESET_RESPONSE.confidence}
-                    missingContext={PRESET_RESPONSE.missingContext}
-                    onFindContext={handleFindContext}
-                  />
-                )}
+                {showConfidence && <ConfidenceIndicator level={PRESET_RESPONSE.confidence} missingContext={PRESET_RESPONSE.missingContext} onFindContext={handleFindContext} />}
               </div>
             )}
           </div>
@@ -161,23 +153,18 @@ export function StreamingDemo() {
           <>
             <div className="h-10" />
             <div className="flex flex-col gap-1 items-end w-full">
-              <div className="bg-[#3d4a54] rounded-lg px-3.5 py-2.5 max-w-[80%]">
-                <p className="text-[#f2f7fc] text-base leading-6 whitespace-pre-line">{FOLLOW_UP_MESSAGE}</p>
+              <div className="bg-bg-tertiary rounded-lg px-3.5 py-2.5 max-w-[80%]">
+                <p className="text-text-primary text-base leading-6 whitespace-pre-line">{FOLLOW_UP_MESSAGE}</p>
               </div>
             </div>
           </>
         )}
-
-        
       </div>
 
       {/* Controls */}
       {isComplete && (
         <div className="flex gap-2">
-          <button
-            onClick={handleReset}
-            className="bg-transparent text-[#667085] rounded-xl px-4 py-3 text-base hover:text-[#f2f7fc] transition-colors"
-          >
+          <button onClick={handleReset} className="bg-transparent text-text-tertiary rounded-xl px-4 py-3 text-base hover:text-text-primary transition-colors">
             Reset
           </button>
         </div>

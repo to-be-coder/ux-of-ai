@@ -23,74 +23,54 @@ interface ConfidenceIndicatorProps {
 const LEVEL_CONFIG = {
   low: {
     label: 'Low',
-    colors: ['bg-[#7d0000]', 'bg-[#475467]', 'bg-[#475467]'],
+    colors: ['bg-bg-error', 'bg-bg-quinary', 'bg-bg-quinary'],
   },
   medium: {
     label: 'Medium',
-    colors: ['bg-[#844600]', 'bg-[#844600]', 'bg-[#475467]'],
+    colors: ['bg-bg-warning', 'bg-bg-warning', 'bg-bg-quinary'],
   },
   high: {
     label: 'High',
-    colors: ['bg-[#12651a]', 'bg-[#12651a]', 'bg-[#12651a]'],
+    colors: ['bg-bg-success', 'bg-bg-success', 'bg-bg-success'],
   },
 } as const
 
-function ConfidenceLevelTrigger({ level, isSelected }: { level: ConfidenceLevel; isSelected: boolean }) {
+function ConfidenceLevelTrigger({ level }: { level: ConfidenceLevel }) {
   const { colors } = LEVEL_CONFIG[level]
 
   return (
-    <div
-      className={cn(
-        'flex h-8 items-center justify-center rounded-xl px-2 transition-colors',
-        isSelected ? 'bg-[#263035]' : 'hover:bg-[#263035]/50'
-      )}
-      aria-label={`Confidence: ${level}`}
-    >
-      <div className="flex h-1 w-14 gap-1">
-        {colors.map((color, i) => (
-          <div key={i} className={cn('h-full flex-1 rounded-sm', color)} />
-        ))}
-      </div>
+    <div className="flex h-1 w-14 gap-1" aria-label={`Confidence: ${level}`}>
+      {colors.map((color, i) => (
+        <div key={i} className={cn('h-full flex-1 rounded-sm', color)} />
+      ))}
     </div>
   )
 }
 
-function ConfidenceLevelCard({
-  level,
-  missingContext,
-  onFindContext,
-}: {
-  level: ConfidenceLevel
-  missingContext: MissingContext[]
-  onFindContext?: () => void
-}) {
+function ConfidenceLevelCard({ level, missingContext, onFindContext }: { level: ConfidenceLevel; missingContext: MissingContext[]; onFindContext?: () => void }) {
   const { label } = LEVEL_CONFIG[level]
 
   return (
-    <div className="flex w-[300px] flex-col overflow-hidden">
+    <div className="flex w-[300px] flex-col overflow-hidden rounded-xl">
       <div className="px-4 pt-3">
-        <span className="text-base leading-6 text-[#d0d5dd]">Confidence: {label}</span>
+        <span className="text-base leading-6 text-text-secondary">Confidence: {label}</span>
       </div>
 
-      <Separator className="mt-3 bg-[#3d4a54]" />
+      <Separator className="mt-3 bg-border-secondary" />
 
       <div className="not-prose space-y-3 overflow-y-auto px-4 py-3">
-        <p className="text-base text-[#f2f7fc]">Missing Context:</p>
+        <p className="text-base text-text-primary">Missing Context:</p>
         <ul className="ml-6 list-disc space-y-3">
           {missingContext.map((item) => (
-            <li key={item.id} className="text-base text-[#f2f7fc]">
+            <li key={item.id} className="text-base text-text-primary">
               {item.text}
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="rounded-b-xl bg-[#3d4a54] px-3 py-2">
-        <Button
-          variant="ghost"
-          onClick={onFindContext}
-          className="h-auto w-full justify-start gap-2 p-0 text-base leading-6 text-[#f2f7fc] hover:bg-transparent hover:opacity-80"
-        >
+      <div className="rounded-b-xl bg-bg-tertiary px-3 py-2">
+        <Button variant="ghost" onClick={onFindContext} className="h-auto w-full justify-start gap-2 p-0 bg-bg-tertiary text-text-primary hover:bg-transparent hover:opacity-80 cursor-pointer">
           <Search size={16} strokeWidth={1.5} />
           Find missing context
         </Button>
@@ -114,18 +94,11 @@ export function ConfidenceIndicator({
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="ghost"
-          className="h-auto p-0 hover:bg-transparent"
-          aria-expanded={isOpen}
-        >
-          <ConfidenceLevelTrigger level={level} isSelected={isOpen} />
+        <Button variant="ghost" className="min-h-8 cursor-pointer rounded-xl px-2 py-1.5 hover:bg-bg-quaternary" aria-expanded={isOpen}>
+          <ConfidenceLevelTrigger level={level} />
         </Button>
       </PopoverTrigger>
-      <PopoverContent
-        align="end"
-        className="w-auto border-none bg-[#263035] p-0 rounded-xl shadow-md"
-      >
+      <PopoverContent align="end" className="w-auto border-none bg-bg-secondary p-0 rounded-xl shadow-md overflow-hidden">
         <ConfidenceLevelCard
           level={level}
           missingContext={missingContext}

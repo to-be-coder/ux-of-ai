@@ -1,8 +1,8 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
-@import "../node_modules/tw-animate-css/dist/tw-animate.css";
-@import "shadcn/tailwind.css";
+@import '../node_modules/tw-animate-css/dist/tw-animate.css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,90 +40,278 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* Semantic Colors - Borders */
+  --color-border-primary: var(--border-primary);
+  --color-border-secondary: var(--border-secondary);
+  --color-border-tertiary: var(--border-tertiary);
+  --color-border-error: var(--border-error);
+
+  /* Semantic Colors - Icons */
+  --color-icon-primary: var(--icon-primary);
+  --color-icon-secondary: var(--icon-secondary);
+  --color-icon-brand: var(--icon-brand);
+
+  /* Semantic Colors - Texts */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-quaternary: var(--text-quaternary);
+  --color-text-brand: var(--text-brand);
+  --color-text-error: var(--text-error);
+  --color-text-white: var(--text-white);
+  --color-text-black: var(--text-black);
+
+  /* Semantic Colors - Backgrounds */
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-quaternary: var(--bg-quaternary);
+  --color-bg-quinary: var(--bg-quinary);
+  --color-bg-senary: var(--bg-senary);
+  --color-bg-brand: var(--bg-brand);
+  --color-bg-success: var(--bg-success);
+  --color-bg-warning: var(--bg-warning);
+  --color-bg-error: var(--bg-error);
+  --color-bg-blur-transparent: var(--bg-blur-transparent);
+
+  /* Primitives - Colors - Shades */
+  --color-shade-white: #ffffff;
+  --color-shade-black: #000000;
+
+  /* Primitives - Colors - Neutral */
+  --color-neutral-50: #f9fafb;
+  --color-neutral-100: #eff1f4;
+  --color-neutral-200: #eaecf0;
+  --color-neutral-300: #d0d5dd;
+  --color-neutral-400: #98a2b3;
+  --color-neutral-500: #667085;
+  --color-neutral-600: #475467;
+  --color-neutral-700: #344054;
+  --color-neutral-800: #1d2939;
+  --color-neutral-900: #101828;
+
+  /* Primitives - Colors - Primary */
+  --color-primary-50: #f2f7fc;
+  --color-primary-100: #d7e7f6;
+  --color-primary-200: #afd0ec;
+  --color-primary-300: #87b8e3;
+  --color-primary-400: #5fa0d9;
+  --color-primary-500: #3888d0;
+  --color-primary-600: #296fad;
+  --color-primary-700: #205788;
+  --color-primary-800: #12304a;
+  --color-primary-900: #091825;
+
+  /* Primitives - Colors - Secondary */
+  --color-secondary-50: #fcfdf5;
+  --color-secondary-100: #f7fbda;
+  --color-secondary-200: #f0f7b6;
+  --color-secondary-300: #e7f193;
+  --color-secondary-400: #e2ed84;
+  --color-secondary-500: #dce875;
+  --color-secondary-600: #c6d35d;
+  --color-secondary-700: #a9b847;
+  --color-secondary-800: #7b8533;
+  --color-secondary-900: #4e5421;
+
+  /* Primitives - Colors - Success */
+  --color-success-50: #f4fdf5;
+  --color-success-100: #ddf9e0;
+  --color-success-200: #bbf3c0;
+  --color-success-300: #99eda1;
+  --color-success-400: #6be577;
+  --color-success-500: #49df58;
+  --color-success-600: #23c934;
+  --color-success-700: #1b9727;
+  --color-success-800: #12651a;
+  --color-success-900: #09320d;
+
+  /* Primitives - Colors - Warning */
+  --color-warning-50: #fff9f4;
+  --color-warning-100: #ffefdd;
+  --color-warning-200: #ffe0bc;
+  --color-warning-300: #ffcb8f;
+  --color-warning-400: #ffb662;
+  --color-warning-500: #ffab4b;
+  --color-warning-600: #ff8c09;
+  --color-warning-700: #c66a00;
+  --color-warning-800: #844600;
+  --color-warning-900: #422300;
+
+  /* Primitives - Colors - Error */
+  --color-error-50: #fff3f3;
+  --color-error-100: #ffdada;
+  --color-error-200: #ffb5b5;
+  --color-error-300: #ff9090;
+  --color-error-400: #ff5f5f;
+  --color-error-500: #ff3a3a;
+  --color-error-600: #fa0000;
+  --color-error-700: #bc0000;
+  --color-error-800: #7d0000;
+  --color-error-900: #3f0000;
+
+  /* Primitives - Colors - Dark (Warm Gray) */
+  --color-dark-50: #484542;
+  --color-dark-100: #3e3b39;
+  --color-dark-200: #343230;
+  --color-dark-300: #2a2928;
+  --color-dark-400: #222120;
+  --color-dark-500: #1a1918;
+  --color-dark-600: #151414;
+  --color-dark-700: #111110;
+  --color-dark-800: #0d0d0c;
+  --color-dark-900: #0a0a09;
 }
 
 body {
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-strong, b {
+strong,
+b {
   font-weight: 800;
 }
 
 :root {
+  --color-fd-background: var(--color-shade-white);
+  --color-fd-card: var(--color-shade-white);
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --background: var(--color-shade-white);
+  --foreground: var(--color-neutral-900);
+  --card: var(--color-shade-white);
+  --card-foreground: var(--color-neutral-900);
+  --popover: var(--color-shade-white);
+  --popover-foreground: var(--color-neutral-900);
+  --primary: var(--color-primary-500);
+  --primary-foreground: var(--color-shade-white);
+  --secondary: var(--color-secondary-500);
+  --secondary-foreground: var(--color-neutral-900);
+  --muted: var(--color-neutral-100);
+  --muted-foreground: var(--color-neutral-500);
+  --accent: var(--color-neutral-100);
+  --accent-foreground: var(--color-neutral-900);
+  --destructive: var(--color-error-500);
+  --border: var(--color-neutral-200);
+  --input: var(--color-neutral-200);
+  --ring: var(--color-primary-500);
+  --chart-1: var(--color-primary-500);
+  --chart-2: var(--color-secondary-500);
+  --chart-3: var(--color-success-500);
+  --chart-4: var(--color-warning-500);
+  --chart-5: var(--color-error-500);
+  --sidebar: var(--color-neutral-50);
+  --sidebar-foreground: var(--color-neutral-900);
+  --sidebar-primary: var(--color-primary-500);
+  --sidebar-primary-foreground: var(--color-shade-white);
+  --sidebar-accent: var(--color-neutral-100);
+  --sidebar-accent-foreground: var(--color-neutral-900);
+  --sidebar-border: var(--color-neutral-200);
+  --sidebar-ring: var(--color-primary-500);
+
+  /* Semantic Colors - Borders (Light Mode) */
+  --border-primary: var(--color-neutral-200);
+  --border-secondary: var(--color-neutral-300);
+  --border-tertiary: var(--color-neutral-400);
+  --border-error: var(--color-error-500);
+
+  /* Semantic Colors - Icons (Light Mode) */
+  --icon-primary: var(--color-neutral-900);
+  --icon-secondary: var(--color-neutral-500);
+  --icon-brand: var(--color-primary-500);
+
+  /* Semantic Colors - Texts (Light Mode) */
+  --text-primary: var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-600);
+  --text-tertiary: var(--color-neutral-500);
+  --text-quaternary: var(--color-neutral-400);
+  --text-brand: var(--color-primary-500);
+  --text-error: var(--color-error-500);
+  --text-white: var(--color-shade-white);
+  --text-black: var(--color-shade-black);
+
+  /* Semantic Colors - Backgrounds (Light Mode) */
+  --bg-primary: var(--color-shade-white);
+  --bg-secondary: var(--color-neutral-50);
+  --bg-tertiary: var(--color-neutral-100);
+  --bg-quaternary: var(--color-neutral-200);
+  --bg-quinary: var(--color-neutral-300);
+  --bg-senary: var(--color-neutral-400);
+  --bg-brand: var(--color-primary-500);
+  --bg-success: var(--color-success-400);
+  --bg-warning: var(--color-warning-400);
+  --bg-error: var(--color-error-400);
+  --bg-blur-transparent: rgba(255, 255, 255, 0.8);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --color-fd-background: var(--color-dark-900);
+  --color-fd-card: var(--color-dark-700);
+  --background: var(--color-dark-700);
+  --foreground: var(--color-neutral-50);
+  --card: var(--color-dark-400);
+  --card-foreground: var(--color-neutral-50);
+  --popover: var(--color-dark-400);
+  --popover-foreground: var(--color-neutral-50);
+  --primary: var(--color-primary-500);
+  --primary-foreground: var(--color-shade-white);
+  --secondary: var(--color-dark-300);
+  --secondary-foreground: var(--color-neutral-50);
+  --muted: var(--color-dark-300);
+  --muted-foreground: var(--color-neutral-400);
+  --accent: var(--color-dark-300);
+  --accent-foreground: var(--color-neutral-50);
+  --destructive: var(--color-error-500);
+  --border: var(--color-dark-50);
+  --input: var(--color-dark-100);
+  --ring: var(--color-primary-500);
+  --chart-1: var(--color-primary-400);
+  --chart-2: var(--color-secondary-400);
+  --chart-3: var(--color-success-400);
+  --chart-4: var(--color-warning-400);
+  --chart-5: var(--color-error-400);
+  --sidebar: var(--color-dark-400);
+  --sidebar-foreground: var(--color-neutral-50);
+  --sidebar-primary: var(--color-primary-500);
+  --sidebar-primary-foreground: var(--color-shade-white);
+  --sidebar-accent: var(--color-dark-300);
+  --sidebar-accent-foreground: var(--color-neutral-50);
+  --sidebar-border: var(--color-dark-50);
+  --sidebar-ring: var(--color-primary-500);
+
+  /* Semantic Colors - Borders (Dark Mode) */
+  --border-primary: var(--color-dark-100);
+  --border-secondary: var(--color-dark-50);
+  --border-tertiary: var(--color-neutral-600);
+  --border-error: var(--color-error-400);
+
+  /* Semantic Colors - Icons (Dark Mode) */
+  --icon-primary: var(--color-neutral-50);
+  --icon-secondary: var(--color-neutral-400);
+  --icon-brand: var(--color-primary-400);
+
+  /* Semantic Colors - Texts (Dark Mode) */
+  --text-primary: var(--color-neutral-50);
+  --text-secondary: var(--color-neutral-300);
+  --text-tertiary: var(--color-neutral-400);
+  --text-quaternary: var(--color-neutral-500);
+  --text-brand: var(--color-primary-400);
+  --text-error: var(--color-error-400);
+  --text-white: var(--color-shade-white);
+  --text-black: var(--color-shade-black);
+
+  /* Semantic Colors - Backgrounds (Dark Mode) */
+  --bg-primary: var(--color-dark-700);
+  --bg-secondary: var(--color-dark-500);
+  --bg-tertiary: var(--color-dark-300);
+  --bg-quaternary: var(--color-dark-200);
+  --bg-quinary: var(--color-neutral-600);
+  --bg-senary: var(--color-white);
+  --bg-brand: var(--color-primary-600);
+  --bg-success: var(--color-success-800);
+  --bg-warning: var(--color-warning-800);
+  --bg-error: var(--color-error-800);
+  --bg-blur-transparent: rgba(26, 35, 41, 0.8);
 }
 
 @layer base {
@@ -133,4 +321,25 @@ strong, b {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Fix Fumadocs navbar background opacity variants */
+.bg-fd-background\/80 {
+  background-color: color-mix(in oklab, var(--color-fd-background) 80%, transparent);
+}
+
+.bg-fd-background\/60 {
+  background-color: color-mix(in oklab, var(--color-fd-background) 60%, transparent);
+}
+
+/* Style code blocks */
+.prose pre,
+.shiki {
+  background-color: var(--bg-secondary) !important;
+  box-shadow: none !important;
+}
+
+/* Primary button style */
+.btn-primary {
+  background-color: var(--bg-senary);
 }
