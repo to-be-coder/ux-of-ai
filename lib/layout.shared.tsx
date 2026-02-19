@@ -5,5 +5,6 @@ export function baseOptions(): BaseLayoutProps {
     nav: {
       title: 'UX of AI / Jess',
     },
+    githubUrl: 'https://github.com/to-be-coder/ux-of-ai',
   }
 }
