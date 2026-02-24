@@ -1,5 +1,6 @@
 // @ts-nocheck
-import * as __fd_glob_3 from "../content/docs/components/index.mdx?collection=docs"
+import * as __fd_glob_4 from "../content/docs/components/index.mdx?collection=docs"
+import * as __fd_glob_3 from "../content/docs/components/consent-control.mdx?collection=docs"
 import * as __fd_glob_2 from "../content/docs/components/confidence-indicators.mdx?collection=docs"
 import * as __fd_glob_1 from "../content/docs/index.mdx?collection=docs"
 import { default as __fd_glob_0 } from "../content/docs/meta.json?collection=docs"
@@ -11,4 +12,4 @@ const create = server<typeof Config, import("fumadocs-mdx/runtime/types").Intern
   }
 }>({"doc":{"passthroughs":["extractedReferences"]}});
 
-export const docs = await create.docs("docs", "content/docs", {"meta.json": __fd_glob_0, }, {"index.mdx": __fd_glob_1, "components/confidence-indicators.mdx": __fd_glob_2, "components/index.mdx": __fd_glob_3, });
+export const docs = await create.docs("docs", "content/docs", {"meta.json": __fd_glob_0, }, {"index.mdx": __fd_glob_1, "components/confidence-indicators.mdx": __fd_glob_2, "components/consent-control.mdx": __fd_glob_3, "components/index.mdx": __fd_glob_4, });

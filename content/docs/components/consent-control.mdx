@@ -1,0 +1,128 @@
+---
+title: Consent Control
+description: Structured choice for AI-driven decisions with tradeoffs
+---
+
+import { StructuredChoice } from '@/components/structured-choice'
+
+---
+
+Structured choice for AI-driven decisions with tradeoffs. When the AI knows enough to narrow options but not enough to pick for the user, present the options with their tradeoffs and let the user choose.
+
+## Component
+
+<div className="flex items-center justify-center p-6 rounded-xl my-6 min-h-[380px] border border-border-primary">
+  <StructuredChoice />
+</div>
+
+## Source Code
+
+<include>../../../components/structured-choice.tsx</include>
+
+## API Reference
+
+### StructuredChoice
+
+The main component for presenting structured choices with tradeoffs.
+
+| Prop      | Type                  | Default     | Description                                              |
+| --------- | --------------------- | ----------- | -------------------------------------------------------- |
+| `options` | `Option[]`            | `[]`        | Array of choice options to display.                      |
+| `onSelect`| `(option: Option) => void` | `undefined` | Callback fired when a choice is confirmed.          |
+| `allowCustom` | `boolean`         | `true`      | Whether to show the custom input option.                 |
+
+### Option
+
+The shape of each choice option.
+
+| Property   | Type     | Description                                      |
+| ---------- | -------- | ------------------------------------------------ |
+| `label`    | `string` | Short name for the option (2-4 words).           |
+| `tradeoff` | `string` | One-line description of the tradeoff (≤10 words).|
+
+### Design Constraints
+
+| Constraint      | Guideline                                           |
+| --------------- | --------------------------------------------------- |
+| Max options     | 4 (users stop comparing tradeoffs beyond this)      |
+| Label length    | 2-4 words                                           |
+| Tradeoff length | ≤10 words, one line                                 |
+| Custom option   | Always available as escape hatch                    |
+
+## Design Philosophy
+
+<div className='fd-steps [&_h3]:fd-step'>
+
+### Where I started
+
+When I started working on consent controls, I was thinking about privacy. Toggles, permission walls, data handling options. The standard consent UX.
+
+But as I started sketching the actual interactions, I noticed something. Every consent prompt I was designing was a multiple choice question. "Process in the cloud, process locally, or decline." "Allow for this thread, this sender, or always." Three options. No wrong answer. Each one a different tradeoff.
+
+Then I noticed the same pattern showing up in components that had nothing to do with consent.
+
+### Where it shows up
+
+When the AI needs the user to pick a tone — formal, casual, direct. When the agent can take three different approaches to a task and needs to know which one. When a request fails and the user can retry, simplify, or switch models. When the AI can return results as a table, as bullet points, or as a paragraph.
+
+Every one of these is the same interaction. The AI knows enough to narrow the options but not enough to pick for the user. It's not asking for confirmation — that's approval dialogs. It's not asking yes or no. It's presenting two, three, four legitimate options with different tradeoffs and letting the user choose.
+
+I couldn't find a component for this anywhere. There are modals, there are confirmation dialogs, there are radio buttons. But nothing designed specifically for the moment where AI is saying "I need you to pick a direction."
+
+### What makes this different from a regular multiple choice
+
+At first I thought this was just a radio group. Pick one, move on. But the more I looked at where it shows up, the more I realized the AI context changes what the component needs to do.
+
+Regular multiple choice is static. The options are predetermined, the labels are fixed, and the user has seen this form before. AI structured choice is dynamic. The options are generated based on the current context. The tradeoffs are different every time. And the user might not have encountered this specific set of options before — so the component needs to communicate not just what the options are, but what each one means and what each one costs.
+
+A form radio group says "pick one." This component says "here's what I can do, here's what each path involves, which way do you want to go?"
+
+That difference has real design implications.
+
+### What each option needs
+
+I looked at every instance of this pattern across the system and found that users need three things to make a good choice.
+
+A clear label. What the option is, in a few words. "Process locally." "Formal tone." "Retry with simpler prompt."
+
+The tradeoff. What you get and what you give up. "Slower but private." "More professional but less approachable." "May lose nuance but more likely to succeed." This is what separates it from a regular radio group. Without the tradeoff, the user is guessing.
+
+The scope, when relevant. Does this choice apply right now, or is it a preference? "Just this time" vs "remember for next time." Not every structured choice needs scoping — picking a tone is usually one-off. But consent, data handling, and agent behavior choices often do.
+
+### What I killed
+
+I killed two things early.
+
+The first was long descriptions. My initial designs had a paragraph under each option explaining the implications. Nobody reads that in the middle of a task. The tradeoff needs to be one line — ten words or less. If it takes more than that, the options aren't clear enough.
+
+The second was more than four options. I tested five and six option versions and the interaction breaks down. The user stops comparing tradeoffs and starts scanning randomly. Four is the ceiling. If the AI has more than four approaches, it should narrow them first or group them.
+
+### Consent as the hard case
+
+Consent is where this component gets pushed the hardest, and it's the case study that shows the most depth.
+
+Most consent UX is binary — accept or decline. A wall of text and two buttons. But real data decisions aren't binary. "Process in the cloud — faster, roughly three seconds, data sent to the provider and deleted after" vs "Process locally — slower, roughly fifteen seconds, data never leaves your device" vs "Not now." Three legitimate options. Each one is a reasonable choice depending on what the user cares about right now.
+
+And "right now" matters. The same user might choose cloud processing for a casual thread about lunch plans and local processing for a thread about a contract negotiation. The choice isn't a preference they set once — it's a decision they make in context. This is why the scoping layer exists. "Just this thread" vs "all threads" vs "make this my default." The component lets the user decide how sticky their choice should be.
+
+But consent goes further than other uses of structured choice because it has a lifecycle. The user makes a choice, that choice becomes a state that the rest of the system respects, and that state needs to be visible, manageable, and revocable.
+
+If the user chose local processing for sensitive threads, the agent task flow needs to know. If they revoke email access entirely, the confidence indicator should surface that as a gap — "I don't have access to this thread, so I can't reference the earlier discussion." The choice the user made in a structured choice prompt ripples through every other component.
+
+This is what makes consent the deepest use case. The structured choice component handles the moment of decision. But the system design around it handles what happens after — how that decision is stored, how other components respond to it, and how the user can revisit it.
+
+### How the system responds to choices
+
+The structured choice prompt is the entry point. But for consent and scope decisions, the choice creates a state that persists. Here's how that state connects to the rest of the system.
+
+The permission state is a live map of what the AI can and can't access. Every component reads from it before acting. The agent checks it before each step in its plan. The confidence indicator references it when a permission gap affects the answer. The streaming response adapts to it if access is revoked mid-session.
+
+The contextual re-prompt is a new structured choice that appears when the context shifts enough that the original choice might not match the user's current intent. The user granted cloud processing for email summaries. Now they're in a thread with financial data. The component surfaces again — same structure, different options: "Keep cloud processing for this thread" vs "Switch to local for this one." Not because a timer expired. Because the situation changed.
+
+The settings layer is where users audit the full picture. Every active permission, when it was granted, how it's been used, and a way to change or revoke it. This isn't the primary interaction — most users experience consent through the contextual prompts. But it needs to exist for users who want to understand the full scope of what they've allowed.
+
+### The principle
+
+When the AI knows enough to narrow the options but not enough to pick for the user, present the options with their tradeoffs and let the user choose. Keep labels short, tradeoffs to one line, options to four or fewer. And when the choice has lasting consequences — consent, scope, agent behavior — let the user decide how far it extends and make it easy to take back.
+
+</div>
